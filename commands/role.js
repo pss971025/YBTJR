@@ -2,21 +2,32 @@ module.exports={
 name: 'reactionrole',
 async execute(message,args,Discord,client){
     const channel = '934005282118459415';
-    const role1=message.guild.roles.cache.find(role=>role.name==="<@&986141212111175740>");
-    const role2=message.guild.roles.cache.find(role=>role.name==="<@&986141246500241448>");
-    const role3=message.guild.roles.cache.find(role=>role.name==="<@&986195780471758879>");
+    const role1Id='â˜… íƒ±ì»¤ â˜…';
+    const role2Id='â˜… ë”œëŸ¬ â˜…';
+    const role3Id='â˜… ížëŸ¬ â˜…';
+    const role1=message.guild.roles.cache.get(role1Id);
+    const role2=message.guild.roles.cache.get(role2Id);
+    const role3=message.guild.roles.cache.get(role3Id);
 
-    const role1Emoji='???';
-    const role2Emoji='??';
-    const role3Emoji='?';
+    const role1Emoji='ðŸ›¡ï¸';
+    const role2Emoji='ðŸ”«';
+    const role3Emoji='âž•';
 
+    const attachment = new Discord.MessageAttachment('./imgs/YBT.png', 'YBT.png');
 
-    let messageEmbed = await message.channel.send('¿ÉÄ¡°èÀÇ ¸Å´Ï ÆÄÄû¾Æ¿À, YBT ÀÇ µð½ºÄÚµå¿¡ ¿À½Å ¿©·¯ºÐÀ» È¯¿µÇÕ´Ï´Ù.\n
-        YBT¸¦ Á¦¿ÜÇÑ ¼­¹ö³» À¯Àú°£ÀÇ Ä£¸ñÀº ±ÝÁöÀÔ´Ï´Ù. ÀÌ Á¡ Àß ¼÷ÁöÇÏ½Ã¾î Àç¹Õ´Â µð½ºÄÚµå È°µ¿ ÀÌ¾î ³ª°¡½Ã±â¸¦ ¹Ù¶ø´Ï´Ù.\n\n
-        ¾Æ·¡ ÀÌ¸ðÁö¸¦ Å¬¸¯ÇÏ½Ã¸é ¿ªÇÒÀÌ ÀÚµ¿ ºÎ¿©µË´Ï´Ù.\n
-        ÀÚ½ÅÀÇ ÁÖ Æ÷Áö¼ÇÀ» ¼±ÅÃÇÏ¿© ÀÌ¸ðÁö¸¦ Å¬¸¯ÇÏ½Ã¸é µË´Ï´Ù.\n'+`${???}: ÅÊÄ¿ ${??}: µô·¯ ${?}: Èú·¯`,{file:['YBT.png']});
+    const embed = new Discord.MessageEmbed()
+        .setDescription('ì˜µì¹˜ê³„ì˜ ë§¤ë‹ˆ íŒŒí€´ì•„ì˜¤, YBT ì˜ ë””ìŠ¤ì½”ë“œì— ì˜¤ì‹  ì—¬ëŸ¬ë¶„ì„ í™˜ì˜í•©ë‹ˆë‹¤.\n'
+        +'YBTë¥¼ ì œì™¸í•œ ì„œë²„ë‚´ ìœ ì €ê°„ì˜ ì¹œëª©ì€ ê¸ˆì§€ìž…ë‹ˆë‹¤. ì´ ì  ìž˜ ìˆ™ì§€í•˜ì‹œì–´ ìž¬ë°ŒëŠ” ë””ìŠ¤ì½”ë“œ í™œë™ ì´ì–´ ë‚˜ê°€ì‹œê¸°ë¥¼ ë°”ëžë‹ˆë‹¤.\n\n'
+        +'ì•„ëž˜ ì´ëª¨ì§€ë¥¼ í´ë¦­í•˜ì‹œë©´ ì—­í• ì´ ìžë™ ë¶€ì—¬ë©ë‹ˆë‹¤.\n'
+        +'ìžì‹ ì˜ ì£¼ í¬ì§€ì…˜ì„ ì„ íƒí•˜ì—¬ ì´ëª¨ì§€ë¥¼ í´ë¦­í•˜ì‹œë©´ ë©ë‹ˆë‹¤.\n'
+        +`${role1Emoji}: íƒ±ì»¤ ${role2Emoji}: ë”œëŸ¬ ${role3Emoji}: ížëŸ¬`)
+        .attachFiles(attachment)
+        .setImage('attachment://YBT.png');
+    let messageEmbed = await message.channel.send(embed);
+
     messageEmbed.react(role1Emoji);
     messageEmbed.react(role2Emoji);
+    messageEmbed.react(role3Emoji);
 
 
     client.on('messageReactionAdd', async(reaction,user) =>{
@@ -27,12 +38,30 @@ async execute(message,args,Discord,client){
 
         if(reaction.message.channel.id == channel){
             if(reaction.emoji.name === role1Emoji){
+                if(message.member.roles.cache.get(role2Id)){
+                    await reaction.message.guild.members.cache.get(user.id).roles.remove(role2);
+                }
+                if(message.member.roles.cache.get(role3Id)){
+                    await reaction.message.guild.members.cache.get(user.id).roles.remove(role3);
+                }
                 await reaction.message.guild.members.cache.get(user.id).roles.add(role1);
             }
             if(reaction.emoji.name === role2Emoji){
+                if(message.member.roles.cache.get(role1Id)){
+                    await reaction.message.guild.members.cache.get(user.id).roles.remove(role1);
+                }
+                if(message.member.roles.cache.get(role3Id)){
+                    await reaction.message.guild.members.cache.get(user.id).roles.remove(role3);
+                }
                 await reaction.message.guild.members.cache.get(user.id).roles.add(role2);
             }
-            if(reaction.emoji.name === role2Emoji){
+            if(reaction.emoji.name === role3Emoji){
+                if(message.member.roles.cache.get(role1Id)){
+                    await reaction.message.guild.members.cache.get(user.id).roles.remove(role1);
+                }
+                if(message.member.roles.cache.get(role2Id)){
+                    await reaction.message.guild.members.cache.get(user.id).roles.remove(role2);
+                }
                 await reaction.message.guild.members.cache.get(user.id).roles.add(role3);
             }
             else{
@@ -54,7 +83,7 @@ async execute(message,args,Discord,client){
             if(reaction.emoji.name === role2Emoji){
                 await reaction.message.guild.members.cache.get(user.id).roles.remove(role2);
             }
-            if(reaction.emoji.name === role2Emoji){
+            if(reaction.emoji.name === role3Emoji){
                 await reaction.message.guild.members.cache.get(user.id).roles.remove(role3);
             }
             else{
