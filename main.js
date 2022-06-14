@@ -32,4 +32,4 @@ client.once('ready', ()=>{
 });
 
 
-client.login('OTg2MTI3Mjc5NjM1NzIyMzQx.GKSvzv.zkc6PwxQm6LJVrwa3gi_8KV9P2jgR4PTH5P9CA');
+client.login(process.env.TOKEN);
